@@ -3,21 +3,22 @@ from app.users.schemas import OnboardingRequest
 from app.database import users_collection
 from app.auth.deps import get_current_user
 
+
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
-@router.put("/onboarding")
+@router.post("/onboarding")
 async def complete_onboarding(
     data: OnboardingRequest,
-    current_user=Depends(get_current_user),
+    user=Depends(get_current_user),
 ):
     await users_collection.update_one(
-        {"_id": current_user["_id"]},
+        {"_id": user["_id"]},
         {
             "$set": {
                 "profile.age": data.age,
-                "profile.weight": data.weight,
                 "profile.height": data.height,
+                "profile.weight": data.weight,
                 "profile.lifestyle": data.lifestyle,
                 "profile.goal": data.goal,
                 "onboarding_completed": True,
@@ -26,3 +27,13 @@ async def complete_onboarding(
     )
 
     return {"success": True}
+
+
+
+@router.get("/me")
+async def get_me(user=Depends(get_current_user)):
+    return {
+        "email": user["email"],
+        "profile": user["profile"],
+        "onboarding_completed": user.get("onboarding_completed", False),
+    }

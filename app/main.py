@@ -9,6 +9,7 @@ from app.dashboard import router as dashboard_router
 from app.users.routes import router as users_router
 
 
+
 app = FastAPI(title="FitVisionAI API")
 
 app.add_middleware(

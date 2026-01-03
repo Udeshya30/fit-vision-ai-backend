@@ -1,8 +1,9 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from typing import Optional
 
 class OnboardingRequest(BaseModel):
-    age: int = Field(..., ge=10, le=100)
-    weight: float = Field(..., ge=30, le=300)
-    height: float = Field(..., ge=100, le=250)
+    age: int
+    height: float
+    weight: float
     lifestyle: str
     goal: str

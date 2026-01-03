@@ -1,29 +1,26 @@
-from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi import Request, HTTPException, status
 from jose import jwt, JWTError
 
 from app.config import JWT_SECRET, JWT_ALGORITHM
 from app.database import users_collection
 
-security = HTTPBearer()
 
-async def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
-):
-    token = credentials.credentials
+async def get_current_user(request: Request):
+    token = request.cookies.get("access_token")
+
+    if not token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+        )
 
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
-        email: str | None = payload.get("sub")
-
-        if email is None:
+        email = payload.get("sub")
+        if not email:
             raise HTTPException(status_code=401, detail="Invalid token")
-
     except JWTError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token expired or invalid",
-        )
+        raise HTTPException(status_code=401, detail="Token expired or invalid")
 
     user = await users_collection.find_one({"email": email})
     if not user:
