@@ -10,6 +10,7 @@ def create_user(email: str, password_hash: str, name: str):
             "weight": None,
             "lifestyle": None,
         },
-        "created_at": datetime.utcnow(),
+        "onboarding_completed": False,
+        "created_at": datetime.utcnow(), 
         "last_login": None,
     }
