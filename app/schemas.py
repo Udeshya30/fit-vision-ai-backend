@@ -13,8 +13,8 @@ class ForgotPasswordRequest(BaseModel):
     email: EmailStr
 
 class ResetPasswordRequest(BaseModel):
-    token: str
-    new_password: str
+    # token: str
+    password: str
 
 class ContactRequest(BaseModel):
     name: str

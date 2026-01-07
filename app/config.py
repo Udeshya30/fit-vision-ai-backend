@@ -19,5 +19,7 @@ SMTP_USER = os.getenv("SMTP_USER")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
 
+FRONTEND_BASE_URL = os.getenv("FRONTEND_BASE_URL")
+
 
 
