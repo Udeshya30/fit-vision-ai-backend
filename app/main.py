@@ -12,9 +12,18 @@ from app.users.routes import router as users_router
 
 app = FastAPI(title="FitVisionAI API")
 
+origin = [
+    "http://localhost:5173",
+    "https://fit-vision-ai-frontend.vercel.app/",
+    "https://fit-vision-ai-frontend-udeshya-kumars-projects.vercel.app/",
+    "https://fit-vision-ai-frontend-git-master-udeshya-kumars-projects.vercel.app/",
+    "https://fit-vision-ai-frontend-pgthfz22r-udeshya-kumars-projects.vercel.app/",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://192.168.0.112:5173","https://fit-vision-ai-frontend.vercel.app/"],
+    # allow_origins=origin,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
