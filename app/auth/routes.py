@@ -141,11 +141,28 @@ async def refresh(request: Request, response: Response):
     return {"success": True}
 
 
+# @router.post("/logout")
+# async def logout(response: Response):
+#     response.delete_cookie("access_token")
+#     response.delete_cookie("refresh_token")
+#     return {"success": True}
+
 @router.post("/logout")
 async def logout(response: Response):
-    response.delete_cookie("access_token")
-    response.delete_cookie("refresh_token")
+    response.delete_cookie(
+        key="access_token",
+        path="/",
+        samesite="none",
+        secure=True,
+    )
+    response.delete_cookie(
+        key="refresh_token",
+        path="/",
+        samesite="none",
+        secure=True,
+    )
     return {"success": True}
+
 
 
 @router.post("/forgot-password")
